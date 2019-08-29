@@ -2,6 +2,7 @@ import Model_Class.Deadline;
 import Model_Class.Event;
 import Model_Class.Task;
 import Model_Class.Todo;
+import Model_Class.DukeException;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,8 +18,8 @@ public class Duke {
         System.out.println(" ");
         boolean terminate = false;
         ArrayList<Task>  toDoList = new ArrayList<>();
-        System.out.println("Hello I'm Duke");
-        while (terminate == false) {
+        System.out.println("Hello, I'm Duke");
+        while (!terminate) {
             Scanner echoObj = new Scanner(System.in);
             String input = echoObj.next().toLowerCase();
             if (input.equals("bye")) {
@@ -36,28 +37,42 @@ public class Duke {
                 System.out.println(toDoList.get(doneTask).getStatusIcon() + toDoList.get(doneTask).getDescription());
             } else {
                 if (input.contains("todo")) {
-                    String tempToDo = echoObj.nextLine();
-                    Todo newToDo = new Todo(tempToDo);
-                    toDoList.add(newToDo);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(newToDo.toString());
-                    System.out.println("Now you have " + toDoList.size() + " task(s) in the list.");
+//                    if (echoObj.nextLine().equals("")) {
+//                       System.out.println("Sorry, the description of a todo cannot be empty!");
+//                    } else {
+                        String tempToDo = echoObj.nextLine();
+                        Todo newToDo = new Todo(tempToDo);
+                        toDoList.add(newToDo);
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println(newToDo.toString());
+                        System.out.println("Now you have " + toDoList.size() + " task(s) in the list.");
+//                    }
                 } else if (input.contains("deadline")) {
-                    String tempDeadline = echoObj.nextLine();
-                    String[] splitDeadline = tempDeadline.split("/");
-                    Deadline newDeadline = new Deadline(splitDeadline[0], splitDeadline[1]);
-                    toDoList.add(newDeadline);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(newDeadline.toString());
-                    System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+//                    if (echoObj.nextLine().equals("")) {
+//                        System.out.println("Sorry, the description of a deadline cannot be empty!");
+//                    } else {
+                        String tempDeadline = echoObj.nextLine();
+                        String[] splitDeadline = tempDeadline.split("/");
+                        Deadline newDeadline = new Deadline(splitDeadline[0], splitDeadline[1]);
+                        toDoList.add(newDeadline);
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println(newDeadline.toString());
+                        System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+//                    }
+                } else if (input.contains("event")) {
+//                    if (echoObj.nextLine().equals("")) {
+//                        System.out.println("Sorry, the description of an event cannot be empty!");
+//                    } else {
+                        String tempEvent = echoObj.nextLine();
+                        String[] splitEvent = tempEvent.split("/");
+                        Event newEvent = new Event(splitEvent[0], splitEvent[1]);
+                        toDoList.add(newEvent);
+                        System.out.println("Got it. I've added this task:");
+                        System.out.println(newEvent.toString());
+                        System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+//                    }
                 } else {
-                    String tempEvent = echoObj.nextLine();
-                    String[] splitEvent = tempEvent.split("/");
-                    Event newEvent = new Event(splitEvent[0], splitEvent[1]);
-                    toDoList.add(newEvent);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println(newEvent.toString());
-                    System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+                    System.out.println("Sorry, I do not know what that means.");
                 }
             }
         }
