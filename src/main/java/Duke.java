@@ -1,3 +1,5 @@
+import Model_Class.Deadline;
+import Model_Class.Event;
 import Model_Class.Task;
 import Model_Class.Todo;
 
@@ -24,7 +26,7 @@ public class Duke {
             } else if (input.equals("list")) {
                 System.out.println("Here are the tasks in your list:");
                 for (Task output : toDoList) {
-                    System.out.println(output.getStatusIcon() + output.getDescription());
+                    System.out.println(output.toString());
                 }
             } else if (input.contains("done")) {
                 String[] splitDoneTask = input.split("\\s+");
@@ -41,8 +43,21 @@ public class Duke {
                     System.out.println(newToDo.toString());
                     System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
                 } else if (input.contains("deadline")) {
-                    String[] splitDeadline = input.split("/");
-
+                    String tempDeadline = echoObj.nextLine();
+                    String[] splitDeadline = tempDeadline.split("/");
+                    Deadline newDeadline = new Deadline(splitDeadline[0], splitDeadline[1]);
+                    toDoList.add(newDeadline);
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println(newDeadline.toString());
+                    System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+                } else {
+                    String tempEvent = echoObj.nextLine();
+                    String[] splitEvent = tempEvent.split("/");
+                    Event newEvent = new Event(splitEvent[0], splitEvent[1]);
+                    toDoList.add(newEvent);
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println(newEvent.toString());
+                    System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
                 }
             }
         }
