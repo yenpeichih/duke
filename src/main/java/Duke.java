@@ -1,10 +1,26 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Duke {
     public static void main(String[] args) {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
+//        String logo = " ____        _        \n"
+//                + "|  _ \\ _   _| | _____ \n"
+//                + "| | | | | | | |/ / _ \\\n"
+//                + "| |_| | |_| |   <  __/\n"
+//                + "|____/ \\__,_|_|\\_\\___|\n";
+//        System.out.println("Hello from\n" + logo);
+//        System.out.println(" ");
+        boolean terminate = false;
+        System.out.println("Hello I'm Duke");
+        while (terminate == false) {
+            Scanner echoObj = new Scanner(System.in);
+            String input = echoObj.nextLine();
+            if (input.equals("bye")) {
+                terminate = true;
+            } else {
+                System.out.println(input);
+            }
+        }
+        ArrayList<String>  toDoList = new ArrayList<>();
     }
 }
