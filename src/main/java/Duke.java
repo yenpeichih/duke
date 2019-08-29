@@ -29,8 +29,8 @@ public class Duke {
                     System.out.println(output.toString());
                 }
             } else if (input.contains("done")) {
-                String[] splitDoneTask = input.split("\\s+");
-                int doneTask = Integer.parseInt(splitDoneTask[1]) - 1;
+                String tempDoneTask = echoObj.nextLine();
+                int doneTask = Integer.parseInt(tempDoneTask.strip()) - 1;
                 toDoList.get(doneTask).setDone();
                 System.out.println("Nice, I have marked this task as done:");
                 System.out.println(toDoList.get(doneTask).getStatusIcon() + toDoList.get(doneTask).getDescription());
@@ -41,7 +41,7 @@ public class Duke {
                     toDoList.add(newToDo);
                     System.out.println("Got it. I've added this task:");
                     System.out.println(newToDo.toString());
-                    System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+                    System.out.println("Now you have " + toDoList.size() + " task(s) in the list.");
                 } else if (input.contains("deadline")) {
                     String tempDeadline = echoObj.nextLine();
                     String[] splitDeadline = tempDeadline.split("/");
