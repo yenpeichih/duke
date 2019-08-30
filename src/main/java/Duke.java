@@ -37,40 +37,40 @@ public class Duke {
                 System.out.println(toDoList.get(doneTask).getStatusIcon() + toDoList.get(doneTask).getDescription());
             } else {
                 if (input.contains("todo")) {
-//                    if (echoObj.nextLine().equals("")) {
-//                       System.out.println("Sorry, the description of a todo cannot be empty!");
-//                    } else {
-                        String tempToDo = echoObj.nextLine();
-                        Todo newToDo = new Todo(tempToDo);
+                    String tempCheckTodo = echoObj.nextLine();
+                    if (tempCheckTodo.equals("")) {
+                        System.out.println("Sorry, the description of a todo cannot be empty!");
+                    } else {
+                        Todo newToDo = new Todo(tempCheckTodo);
                         toDoList.add(newToDo);
                         System.out.println("Got it. I've added this task:");
                         System.out.println(newToDo.toString());
                         System.out.println("Now you have " + toDoList.size() + " task(s) in the list.");
-//                    }
+                   }
                 } else if (input.contains("deadline")) {
-//                    if (echoObj.nextLine().equals("")) {
-//                        System.out.println("Sorry, the description of a deadline cannot be empty!");
-//                    } else {
-                        String tempDeadline = echoObj.nextLine();
+                    String tempDeadline = echoObj.nextLine();
+                    if (tempDeadline.equals("")) {
+                        System.out.println("Sorry, the description of a deadline cannot be empty!");
+                    } else {
                         String[] splitDeadline = tempDeadline.split("/");
                         Deadline newDeadline = new Deadline(splitDeadline[0], splitDeadline[1]);
                         toDoList.add(newDeadline);
                         System.out.println("Got it. I've added this task:");
                         System.out.println(newDeadline.toString());
                         System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
-//                    }
+                    }
                 } else if (input.contains("event")) {
-//                    if (echoObj.nextLine().equals("")) {
-//                        System.out.println("Sorry, the description of an event cannot be empty!");
-//                    } else {
-                        String tempEvent = echoObj.nextLine();
+                    String tempEvent = echoObj.nextLine();
+                    if (tempEvent.equals("")) {
+                        System.out.println("Sorry, the description of an event cannot be empty!");
+                    } else {
                         String[] splitEvent = tempEvent.split("/");
                         Event newEvent = new Event(splitEvent[0], splitEvent[1]);
                         toDoList.add(newEvent);
                         System.out.println("Got it. I've added this task:");
                         System.out.println(newEvent.toString());
                         System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
-//                    }
+                    }
                 } else {
                     System.out.println("Sorry, I do not know what that means.");
                 }
