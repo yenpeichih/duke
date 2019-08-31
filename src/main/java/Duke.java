@@ -1,10 +1,14 @@
-import Model_Class.Deadline;
-import Model_Class.Event;
-import Model_Class.Task;
-import Model_Class.Todo;
-import Model_Class.DukeException;
+import Model_Class.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Duke {
@@ -17,12 +21,45 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
         System.out.println(" ");
         boolean terminate = false;
-        ArrayList<Task>  toDoList = new ArrayList<>();
+        File listsFile = new File("C:\\Users\\yenpe\\OneDrive\\Desktop\\School sem 3\\CS2113T\\duke\\DukeList.txt");
+        ArrayList<String> toDoString = new ArrayList<>();  // the list to store input file as string
+        ArrayList<Task> toDoList = new ArrayList<>();  // array list to store list as task class
+        try {
+            Scanner readFile = new Scanner(listsFile);
+            while (readFile.hasNextLine()) {
+                String tempLine = readFile.nextLine();
+                try {
+                    toDoString.add(tempLine);
+                } catch (NullPointerException a) {
+                    System.out.println("bug?");
+                }
+            }
+            if (!toDoString.isEmpty()) {
+                for (String iterate : toDoString) {
+                    Task fileTodoList = new Task(iterate);
+                    toDoList.add(fileTodoList);
+                }
+            }
+        } catch (IOException e) {
+            // ignore
+        }
         System.out.println("Hello, I'm Duke");
         while (!terminate) {
             Scanner echoObj = new Scanner(System.in);
             String input = echoObj.next().toLowerCase();
             if (input.equals("bye")) {
+
+                // to save file upon exit
+                PrintWriter printWriter = null;
+                try {
+                    printWriter = new PrintWriter("DukeList.txt");
+                } catch (FileNotFoundException fileNotFound) {
+                    fileNotFound.printStackTrace();
+                }
+                for (Task fileList : toDoList) {
+                    printWriter.println(fileList);
+                }
+                printWriter.close();
                 terminate = true;
             } else if (input.equals("list")) {
                 System.out.println("Here are the tasks in your list:");
