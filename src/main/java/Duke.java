@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 import java.text.SimpleDateFormat;
 
@@ -45,7 +47,7 @@ public class Duke {
                             toDoList.add(fileTodo);
                         }
                     } else if (splitFileString[1].equals("E]")) {
-                        Event fileEvent = new Event(splitFileStringTwo[1].replaceAll(" \\(at", ""), splitFileString[3].strip().replaceAll("\\)", ""));
+                        Event fileEvent = new Event(splitFileStringTwo[1].stripTrailing(), splitFileString[3].strip().replaceAll("at: ", "").replaceAll("\\)", ""));
                         if (splitFileStringTwo[0].equals("\u2713")) {
                             fileEvent.setDone();
                             toDoList.add(fileEvent);
@@ -53,7 +55,7 @@ public class Duke {
                             toDoList.add(fileEvent);
                         }
                     } else {
-                        Deadline fileDeadline = new Deadline(splitFileStringTwo[1].replaceAll(" \\(by", ""), splitFileString[3].strip().replaceAll("\\)", ""));
+                        Deadline fileDeadline = new Deadline(splitFileStringTwo[1].stripTrailing(), splitFileString[3].strip().replaceAll("by: ", "").replaceAll("\\)", ""));
                         if (splitFileStringTwo[0].equals("\u2713")) {
                             fileDeadline.setDone();
                             toDoList.add(fileDeadline);
@@ -67,6 +69,7 @@ public class Duke {
             // ignore
         }
         System.out.println("Hello, I'm Duke");
+        System.out.println("How may I help you today?");
         while (!terminate) {
             Scanner echoObj = new Scanner(System.in);
             String input = echoObj.next().toLowerCase();
@@ -86,8 +89,7 @@ public class Duke {
                     } else if (checkTaskType.charAt(1) == 'E') {
                         char[] convertToChar = checkTaskType.toCharArray();
                         for (int i = 0; i < checkTaskType.length(); i += 1) {
-                            Character ch = convertToChar[i];
-                            if (ch.equals(':')) {
+                            if (convertToChar[i] == '(') {
                                 convertToChar[i] = '[';
                             }
                         }
@@ -96,7 +98,7 @@ public class Duke {
                     } else {
                         char[] convertToChar = checkTaskType.toCharArray();
                         for (int i = 0; i < checkTaskType.length(); i += 1) {
-                            if (convertToChar[i] == ':') {
+                            if (convertToChar[i] == '(') {
                                 convertToChar[i] = '[';
                             }
                         }
@@ -105,6 +107,7 @@ public class Duke {
                     }
                 }
                 printWriter.close();
+                System.out.println("Thank you and have a nice day, goodbye!");
                 terminate = true;
             } else if (input.equals("list")) {
                 System.out.println("Here are the tasks in your list:");
@@ -130,28 +133,44 @@ public class Duke {
                         System.out.println("Now you have " + toDoList.size() + " task(s) in the list.");
                    }
                 } else if (input.contains("deadline")) {
+                    String pattern = "yyyy-MM-dd HHmm";
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
                     String tempDeadline = echoObj.nextLine();
                     if (tempDeadline.equals("")) {
                         System.out.println("Sorry, the description of a deadline cannot be empty!");
                     } else {
                         String[] splitDeadline = tempDeadline.split("/");
-                        Deadline newDeadline = new Deadline(splitDeadline[0], splitDeadline[1]);
-                        toDoList.add(newDeadline);
-                        System.out.println("Got it. I've added this task:");
-                        System.out.println(newDeadline.toString());
-                        System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+                        try {
+                            Date date = dateFormat.parse(splitDeadline[1]);
+                            String dateString = date.toString();
+                            Deadline newDeadline = new Deadline(splitDeadline[0], dateString);
+                            toDoList.add(newDeadline);
+                            System.out.println("Got it. I've added this task:");
+                            System.out.println(newDeadline.toString());
+                            System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+                        } catch (ParseException p) {
+                            System.out.println("Sorry, please enter the date in the format 'yyyy-MM-dd HHmm', thank you.");
+                        }
                     }
                 } else if (input.contains("event")) {
+                    String pattern = "yyyy-MM-dd HHmm";
+                    SimpleDateFormat dateFormat = new SimpleDateFormat((pattern));
                     String tempEvent = echoObj.nextLine();
                     if (tempEvent.equals("")) {
                         System.out.println("Sorry, the description of an event cannot be empty!");
                     } else {
                         String[] splitEvent = tempEvent.split("/");
-                        Event newEvent = new Event(splitEvent[0], splitEvent[1]);
-                        toDoList.add(newEvent);
-                        System.out.println("Got it. I've added this task:");
-                        System.out.println(newEvent.toString());
-                        System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+                        try {
+                            Date date = dateFormat.parse(splitEvent[1]);
+                            String dateString = date.toString();
+                            Event newEvent = new Event(splitEvent[0], dateString);
+                            toDoList.add(newEvent);
+                            System.out.println("Got it. I've added this task:");
+                            System.out.println(newEvent.toString());
+                            System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
+                        } catch (ParseException p) {
+                            System.out.println("Sorry, please enter the date in the format 'yyyy-MM-dd HHmm', thank you.");
+                        }
                     }
                 } else {
                     System.out.println("Sorry, I do not know what that means.");
