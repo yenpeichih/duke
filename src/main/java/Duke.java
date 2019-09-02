@@ -4,12 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+import java.text.SimpleDateFormat;
 
 public class Duke {
     public static void main(String[] args) {
@@ -36,8 +33,34 @@ public class Duke {
             }
             if (!toDoString.isEmpty()) {
                 for (String iterate : toDoString) {
-                    Task fileTodoList = new Task(iterate);
-                    toDoList.add(fileTodoList);
+                    // split each to do line here according to [ and determine class
+                    String[] splitFileString = iterate.split("\\[");
+                    String[] splitFileStringTwo = splitFileString[2].split("]");
+                    if (splitFileString[1].equals("T]")) {
+                        Todo fileTodo = new Todo(splitFileStringTwo[1]);
+                        if (splitFileStringTwo[0].equals("\u2713")) {
+                            fileTodo.setDone();
+                            toDoList.add(fileTodo);
+                        } else {
+                            toDoList.add(fileTodo);
+                        }
+                    } else if (splitFileString[1].equals("E]")) {
+                        Event fileEvent = new Event(splitFileStringTwo[1].replaceAll(" \\(at", ""), splitFileString[3].strip().replaceAll("\\)", ""));
+                        if (splitFileStringTwo[0].equals("\u2713")) {
+                            fileEvent.setDone();
+                            toDoList.add(fileEvent);
+                        } else {
+                            toDoList.add(fileEvent);
+                        }
+                    } else {
+                        Deadline fileDeadline = new Deadline(splitFileStringTwo[1].replaceAll(" \\(by", ""), splitFileString[3].strip().replaceAll("\\)", ""));
+                        if (splitFileStringTwo[0].equals("\u2713")) {
+                            fileDeadline.setDone();
+                            toDoList.add(fileDeadline);
+                        } else {
+                            toDoList.add(fileDeadline);
+                        }
+                    }
                 }
             }
         } catch (IOException e) {
@@ -57,7 +80,29 @@ public class Duke {
                     fileNotFound.printStackTrace();
                 }
                 for (Task fileList : toDoList) {
-                    printWriter.println(fileList);
+                    String checkTaskType = fileList.toString();
+                    if (checkTaskType.charAt(1) == 'T') {
+                        printWriter.println(checkTaskType);
+                    } else if (checkTaskType.charAt(1) == 'E') {
+                        char[] convertToChar = checkTaskType.toCharArray();
+                        for (int i = 0; i < checkTaskType.length(); i += 1) {
+                            Character ch = convertToChar[i];
+                            if (ch.equals(':')) {
+                                convertToChar[i] = '[';
+                            }
+                        }
+                        String newString = new String(convertToChar);
+                        printWriter.println(newString);
+                    } else {
+                        char[] convertToChar = checkTaskType.toCharArray();
+                        for (int i = 0; i < checkTaskType.length(); i += 1) {
+                            if (convertToChar[i] == ':') {
+                                convertToChar[i] = '[';
+                            }
+                        }
+                        String newString = new String(convertToChar);
+                        printWriter.println(newString);
+                    }
                 }
                 printWriter.close();
                 terminate = true;

@@ -3,11 +3,15 @@ package Model_Class;
 public class Task {
     protected String description;
     protected boolean isDone;
+    protected int len;
 
     public Task(String description) {
         this.description = description;
         this.isDone = false;
+        this.len = toString().length();
     }
+
+
 
     public String getStatusIcon() {
         return (isDone ? "[\u2713]" : "[\u2718]"); //return tick or X symbols
@@ -24,4 +28,7 @@ public class Task {
     public String toString() {
         return getStatusIcon() + getDescription();
     }
+
+    public Integer stringLength() { return len; }
+
 }
