@@ -30,7 +30,7 @@ public class Duke {
                 try {
                     toDoString.add(tempLine);
                 } catch (NullPointerException a) {
-                    System.out.println("bug?");
+                    System.out.println(a);
                 }
             }
             if (!toDoString.isEmpty()) {
@@ -66,7 +66,7 @@ public class Duke {
                 }
             }
         } catch (IOException e) {
-            // ignore
+            System.out.println(e);
         }
         System.out.println("Hello, I'm Duke");
         System.out.println("How may I help you today?");
@@ -120,6 +120,13 @@ public class Duke {
                 toDoList.get(doneTask).setDone();
                 System.out.println("Nice, I have marked this task as done:");
                 System.out.println(toDoList.get(doneTask).getStatusIcon() + toDoList.get(doneTask).getDescription());
+            } else if (input.contains("delete")) {
+                String temDeleteTask = echoObj.nextLine();
+                int deleteTask = Integer.parseInt(temDeleteTask.strip()) - 1;
+                System.out.println("Okay, I have removed this task from your list: ");
+                System.out.println(toDoList.get(deleteTask).getStatusIcon() + toDoList.get(deleteTask).getDescription());
+                toDoList.remove(deleteTask);
+                System.out.println("You now have " + toDoList.size() + " tasks(s) in the list." );
             } else {
                 if (input.contains("todo")) {
                     String tempCheckTodo = echoObj.nextLine();
