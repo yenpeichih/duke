@@ -24,43 +24,45 @@ public class Duke {
         ArrayList<String> toDoString = new ArrayList<>();  // the list to store input file as string
         ArrayList<Task> toDoList = new ArrayList<>();  // array list to store list as task class
         try {
-            Scanner readFile = new Scanner(listsFile);
-            while (readFile.hasNextLine()) {
-                String tempLine = readFile.nextLine();
-                try {
-                    toDoString.add(tempLine);
-                } catch (NullPointerException a) {
-                    System.out.println(a);
+            if (listsFile.exists()) {
+                Scanner readFile = new Scanner(listsFile);
+                while (readFile.hasNextLine()) {
+                    String tempLine = readFile.nextLine();
+                    try {
+                        toDoString.add(tempLine);
+                    } catch (NullPointerException a) {
+                        System.out.println(a);
+                    }
                 }
-            }
-            if (!toDoString.isEmpty()) {
-                for (String iterate : toDoString) {
-                    // split each to do line here according to [ and determine class
-                    String[] splitFileString = iterate.split("\\[");
-                    String[] splitFileStringTwo = splitFileString[2].split("]");
-                    if (splitFileString[1].equals("T]")) {
-                        Todo fileTodo = new Todo(splitFileStringTwo[1]);
-                        if (splitFileStringTwo[0].equals("\u2713")) {
-                            fileTodo.setDone();
-                            toDoList.add(fileTodo);
+                if (!toDoString.isEmpty()) {
+                    for (String iterate : toDoString) {
+                        // split each to do line here according to [ and determine class
+                        String[] splitFileString = iterate.split("\\[");
+                        String[] splitFileStringTwo = splitFileString[2].split("]");
+                        if (splitFileString[1].equals("T]")) {
+                            Todo fileTodo = new Todo(splitFileStringTwo[1]);
+                            if (splitFileStringTwo[0].equals("\u2713")) {
+                                fileTodo.setDone();
+                                toDoList.add(fileTodo);
+                            } else {
+                                toDoList.add(fileTodo);
+                            }
+                        } else if (splitFileString[1].equals("E]")) {
+                            Event fileEvent = new Event(splitFileStringTwo[1].stripTrailing(), splitFileString[3].strip().replaceAll("at: ", "").replaceAll("\\)", ""));
+                            if (splitFileStringTwo[0].equals("\u2713")) {
+                                fileEvent.setDone();
+                                toDoList.add(fileEvent);
+                            } else {
+                                toDoList.add(fileEvent);
+                            }
                         } else {
-                            toDoList.add(fileTodo);
-                        }
-                    } else if (splitFileString[1].equals("E]")) {
-                        Event fileEvent = new Event(splitFileStringTwo[1].stripTrailing(), splitFileString[3].strip().replaceAll("at: ", "").replaceAll("\\)", ""));
-                        if (splitFileStringTwo[0].equals("\u2713")) {
-                            fileEvent.setDone();
-                            toDoList.add(fileEvent);
-                        } else {
-                            toDoList.add(fileEvent);
-                        }
-                    } else {
-                        Deadline fileDeadline = new Deadline(splitFileStringTwo[1].stripTrailing(), splitFileString[3].strip().replaceAll("by: ", "").replaceAll("\\)", ""));
-                        if (splitFileStringTwo[0].equals("\u2713")) {
-                            fileDeadline.setDone();
-                            toDoList.add(fileDeadline);
-                        } else {
-                            toDoList.add(fileDeadline);
+                            Deadline fileDeadline = new Deadline(splitFileStringTwo[1].stripTrailing(), splitFileString[3].strip().replaceAll("by: ", "").replaceAll("\\)", ""));
+                            if (splitFileStringTwo[0].equals("\u2713")) {
+                                fileDeadline.setDone();
+                                toDoList.add(fileDeadline);
+                            } else {
+                                toDoList.add(fileDeadline);
+                            }
                         }
                     }
                 }
@@ -127,6 +129,14 @@ public class Duke {
                 System.out.println(toDoList.get(deleteTask).getStatusIcon() + toDoList.get(deleteTask).getDescription());
                 toDoList.remove(deleteTask);
                 System.out.println("You now have " + toDoList.size() + " tasks(s) in the list." );
+            } else if (input.contains("find")) {
+                String tempFindTask = echoObj.nextLine();
+                System.out.println("Here are the matching tasks in the list");
+                for (Task findTask : toDoList) {
+                    if (findTask.toString().contains(tempFindTask)) {
+                        System.out.println(findTask.toString());
+                    }
+                }
             } else {
                 if (input.contains("todo")) {
                     String tempCheckTodo = echoObj.nextLine();
