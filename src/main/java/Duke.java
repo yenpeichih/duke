@@ -120,6 +120,14 @@ public class Duke {
                 toDoList.get(doneTask).setDone();
                 System.out.println("Nice, I have marked this task as done:");
                 System.out.println(toDoList.get(doneTask).getStatusIcon() + toDoList.get(doneTask).getDescription());
+            } else if (input.contains("find")) {
+                String tempFindTask = echoObj.nextLine();
+                System.out.println("Here are the matching tasks in the list");
+                for (Task findTask : toDoList) {
+                    if (findTask.toString().contains(tempFindTask)) {
+                        System.out.println(findTask.toString());
+                    }
+                }
             } else {
                 if (input.contains("todo")) {
                     String tempCheckTodo = echoObj.nextLine();
