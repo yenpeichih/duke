@@ -38,16 +38,9 @@ public class Duke {
                     System.out.println(output.toString());
                 }
             } else if (input.contains("done")) {
-                int doneTask = Integer.parseInt(tempCheckString.strip()) - 1;
-                toDoList.get(doneTask).setDone();
-                System.out.println("Nice, I have marked this task as done:");
-                System.out.println(toDoList.get(doneTask).getStatusIcon() + toDoList.get(doneTask).getDescription());
+                taskList.setAsDone();
             } else if (input.contains("delete")) {
-                int deleteTask = Integer.parseInt(tempCheckString.strip()) - 1;
-                System.out.println("Okay, I have removed this task from your list: ");
-                System.out.println(toDoList.get(deleteTask).getStatusIcon() + toDoList.get(deleteTask).getDescription());
-                toDoList.remove(deleteTask);
-                System.out.println("You now have " + toDoList.size() + " tasks(s) in the list." );
+                taskList.removeTask();
             } else if (input.contains("find")) {
                 System.out.println("Here are the matching tasks in the list");
                 for (Task findTask : toDoList) {
@@ -63,42 +56,16 @@ public class Duke {
                         taskList.addTodo();
                    }
                 } else if (input.contains("deadline")) {
-                    String pattern = "yyyy-MM-dd HHmm";
-                    SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
                     if (tempCheckString.equals("")) {
                         ui.getWrongDeadline();
                     } else {
-                        String[] splitDeadline = tempCheckString.split("/");
-                        try {
-                            Date date = dateFormat.parse(splitDeadline[1]);
-                            String dateString = date.toString();
-                            Deadline newDeadline = new Deadline(splitDeadline[0], dateString);
-                            System.out.println("Got it. I've added this task:");
-                            System.out.println(newDeadline.toString());
-                            System.out.println("Now you have " + toDoList.size() + " tasks(s) in the list.");
-                        } catch (ParseException p) {
-                            ui.getWrongDateFormat();
-                        }
+                        taskList.addDeadline();
                     }
                 } else if (input.contains("event")) {
-                    String pattern = "yyyy-MM-dd HHmm";
-                    SimpleDateFormat dateFormat = new SimpleDateFormat((pattern));
-                    String tempEvent = echoObj.nextLine();
-                    if (tempEvent.equals("")) {
+                    if (tempCheckString.equals("")) {
                         ui.getWrongEvent();
                     } else {
-                        String[] splitEvent = tempEvent.split("/");
-                        try {
-                            Date date = dateFormat.parse(splitEvent[1]);
-                            String dateString = date.toString();
-                            Event newEvent = new Event(splitEvent[0], dateString);
-                            toDoList.add(newEvent);
-                            System.out.println("Got it. I've added this task:");
-                            System.out.println(newEvent.toString());
-                            System.out.println("Now you have " + toDoList.size() + " tasks in the list.");
-                        } catch (ParseException p) {
-                            ui.getWrongDateFormat();
-                        }
+                        taskList.addEvent();
                     }
                 } else {
                     ui.doNotUnderstand();

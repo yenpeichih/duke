@@ -14,43 +14,37 @@ public class TaskList {
         this.checkString = checkString;
     }
 
-    public void addTodo() {
+    public String addTodo() {
         Todo newToDo = new Todo(checkString);
         toDoList.add(newToDo);
-        System.out.println("Got it. I've added this task:");
-        System.out.println(newToDo.toString());
-        System.out.println("Now you have " + toDoList.size() + " task(s) in the list.");
+        return "Got it. I've added this task:\n" + newToDo.toString() + "\n" + "Now you have " + toDoList.size() + " task(s) in the list.";
     }
 
-    public void addDeadline() {
+    public String addDeadline() {
         String pattern = "yyyy-MM-dd HHmm";
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         String[] splitDeadline = checkString.split("/");
         Parsing parseDeadline = new Parsing(dateFormat, splitDeadline[1]);
         if (parseDeadline.parseDate().equals("Sorry, please enter the date in the format 'yyyy-MM-dd HHmm', thank you.")) {
-            System.out.println(parseDeadline.parseDate());
+            return parseDeadline.parseDate();
         } else {
             Deadline newDeadline = new Deadline(splitDeadline[0], parseDeadline.parseDate());
             toDoList.add(newDeadline);
-            System.out.println("Got it. I've added this task:");
-            System.out.println(newDeadline.toString());
-            System.out.println("Now you have " + toDoList.size() + " task(s) in the list.");
+            return "Got it. I've added this task:\n" + newDeadline.toString() + "\n" + "Now you have " + toDoList.size() + " task(s) in the list.";
         }
     }
 
-    public void addEvent() {
+    public String addEvent() {
         String pattern = "yyyy-MM-dd HHmm";
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         String[] splitEvent = checkString.split("/");
         Parsing parseEvent = new Parsing(dateFormat, splitEvent[1]);
         if (parseEvent.parseDate().equals("Sorry, please enter the date in the format 'yyyy-MM-dd HHmm', thank you.")) {
-            System.out.println(parseEvent.parseDate());
+            return parseEvent.parseDate();
         } else {
             Event newEvent = new Event(splitEvent[0], parseEvent.parseDate());
             toDoList.add(newEvent);
-            System.out.println("Got it. I've added this task:");
-            System.out.println(newEvent.toString());
-            System.out.println("Now you have " + toDoList.size() + " task(s) in the list.");
+            return "Got it. I've added this task:\n" + newEvent.toString() + "\n" + "Now you have " + toDoList.size() + " task(s) in the list.";
         }
     }
 
