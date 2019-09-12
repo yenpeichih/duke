@@ -6,18 +6,34 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This class saves the to-do list into a text file using the PrintWriter class and checks for existing text files to
+ * load into the program if there is any. The tasks in the list are converted to Strings to print into the file
+ * and are converted back to Task class when being loaded into the program.
+ */
 public class Storage {
 
     public File listsFile;
     public ArrayList<String> toDoString;
     public ArrayList<Task> toDoList;
 
+    /**
+     * The constructor for this class.
+     *
+     * @param listsFile The path of the file to be saved.
+     */
     public Storage(File listsFile) {
         this.listsFile = listsFile;
         this.toDoString = new ArrayList<>();
         this.toDoList = new ArrayList<>();
     }
 
+    /**
+     * Method to read the to-do list from the text file and convert each string into a Task class, before being inserted
+     * into the ArrayList.
+     *
+     * @return The populated ArrayList of Tasks
+     */
     public ArrayList loadFile() {
         if (listsFile.exists()) {
             try {
@@ -72,6 +88,10 @@ public class Storage {
         }
     }
 
+    /**
+     * This method converts the Tasks objects in the ArrayList into strings and print them out into a text file. The
+     * text file is saved after the operation.
+     */
     public void saveFile() {
         PrintWriter printWriter = null;
         try {

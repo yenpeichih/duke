@@ -1,11 +1,8 @@
 import Model_Class.*;
 
 import java.io.File;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
-import java.text.SimpleDateFormat;
 
 public class Duke {
 
@@ -33,39 +30,36 @@ public class Duke {
                 ui.getBye();
                 terminate = true;
             } else if (input.equals("list")) {
-                System.out.println("Here are the tasks in your list:");
-                for (Task output : toDoList) {
-                    System.out.println(output.toString());
-                }
+                taskList.listTask();
             } else if (input.contains("done")) {
                 taskList.setAsDone();
+                storage.saveFile();
             } else if (input.contains("delete")) {
                 taskList.removeTask();
+                storage.saveFile();
             } else if (input.contains("find")) {
-                System.out.println("Here are the matching tasks in the list");
-                for (Task findTask : toDoList) {
-                    if (findTask.toString().contains(tempCheckString)) {
-                        System.out.println(findTask.toString());
-                    }
-                }
+                taskList.findTask();
             } else {
                 if (input.contains("todo")) {
                     if (tempCheckString.equals("")) {
                         ui.getWrongTodo();
                     } else {
                         taskList.addTodo();
+                        storage.saveFile();
                    }
                 } else if (input.contains("deadline")) {
                     if (tempCheckString.equals("")) {
                         ui.getWrongDeadline();
                     } else {
                         taskList.addDeadline();
+                        storage.saveFile();
                     }
                 } else if (input.contains("event")) {
                     if (tempCheckString.equals("")) {
                         ui.getWrongEvent();
                     } else {
                         taskList.addEvent();
+                        storage.saveFile();
                     }
                 } else {
                     ui.doNotUnderstand();
